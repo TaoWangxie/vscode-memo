@@ -1,0 +1,187 @@
+<!-- <!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=0,maximum-scale=0,user-scalable=yes,shrink-to-fit=no">
+    <title>form generator</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <style>
+        .container {
+            width: 100%;
+            height: 100vh;
+            color: #303133;
+            /* display: flex; */
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        .title {
+            height: 40px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+            border-bottom: 1px solid #DCDFE6;
+            color: #fff;
+            /* background: #f6478f; */
+        }
+        .content {
+            display: flex;
+            width: 100%;
+            height: calc(100% - 40px);
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        .page{
+            flex: 1;
+            padding: 0 10px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .page_li_title{
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            padding-right: 10px;
+        }
+        .titlespan:first-child{
+            width: 0;
+            flex: 1;
+            font-size: 14px;
+            font-weight: bold;
+            word-wrap: break-word
+        }
+        .titlespan:last-child{
+            font-size: 12px;
+            font-weight: normal;
+            margin-left: 10px;
+        }
+        .titlespan:last-child:hover {
+            cursor: pointer;
+            color: #f6478f;
+            
+        }
+        .page_li_data{
+            padding: 10px;
+            font-size: 12px;
+            color: #606266;
+            background: #E6E8EB;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .menu{
+            display: inline-block;
+            width: 150px;
+            height: 100%;
+            border-left: 0.5px solid #DCDFE6;
+            overflow-y: auto;
+        }
+        .menu_li_title{
+            padding: 5px 6px;
+            font-size: 13px;
+        }
+        .menu_li_title:hover {
+            cursor: pointer;
+            color: #f6478f;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div class="title">
+            🐸 笔记本
+        </div>
+        <div class="content">
+            <div class="page" ref="pageRef">
+                <div class="page_li" v-for="(item,index) in lists" :key='index'>
+                    <div :id="'chapter' + index" class="page_li_title">
+                        <span class="titlespan">{{item.title}}</span>
+                        <span class="titlespan" @click='doCopy(item.data)'>
+                           复制
+                        </span>
+                        
+                    </div>
+                    <div class="page_li_data">{{item.data}}</div>
+                </div>
+            </div>
+            <div class="menu">
+                <el-anchor >
+                    <template v-for="(item,index) in lists" :key='index'>
+                        <el-anchor-link :href="'#chapter'+ index" :title="item.title"></el-anchor-link>
+                    </template>
+                  </el-anchor>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/element-plus"></script>
+    <script>
+        const { createApp, ref, onMounted } = Vue
+
+        createApp({
+            setup() {
+                const pageRef = ref<HTMLElement | null>(null)
+                const lists = ref([
+                    {
+                        title:'1111',
+                        data:'111'
+                    },
+                    {
+                        title:'222',
+                        data:'222'
+                    },
+                    {
+                        title:'333',
+                        data:'3333'
+                    }
+                ])
+                const handleMessage = (event) => {
+                    console.log(888888888,event)
+                };
+
+                // onMounted(() => {
+                    window.addEventListener('message', handleMessage);
+                // });
+                
+                const doCopy =(data)=>{
+                    let oInput = document.createElement('input');
+                    oInput.value = data;
+                    document.body.appendChild(oInput);
+                    oInput.select(); // 选择对象
+                    document.execCommand("Copy"); // 执行浏览器复制命令
+                    oInput.className = 'oInput';
+                    oInput.style.display = 'none';
+                    // this.$message.success("复制成功");
+                }
+                const handleClick = (e)=>{
+                    e.preventDefault()
+                }
+                return {
+                    lists,
+                    doCopy,
+                    handleClick,
+                    handleMessage
+                }
+            }
+        }).use(ElementPlus).mount('#app')
+
+    </script>
+</body>
+
+</html> -->

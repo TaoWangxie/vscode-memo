@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=0,maximum-scale=0,user-scalable=yes,shrink-to-fit=no">
+    <title>form generator</title>
+    <link rel="stylesheet" resource="local" href="../../lib/element/index.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <style>
+        .container {
+            width: 100%;
+            height: 100vh;
+            color: #303133;
+            /* display: flex; */
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        .title {
+            height: 40px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1.2px;
+            /* border-bottom: 1px solid #DCDFE6; */
+            color: #fff;
+            background: #3CB371;
+        }
+        .content {
+            display: flex;
+            width: 100%;
+            height: calc(100% - 40px);
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        .page{
+            flex: 1;
+            padding: 0 10px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .page_li_h1{
+            padding: 20px 0 !important;
+        }
+        .page_li_h1 .titlespan:first-child{
+            font-size: 20px;
+        }
+        .page_li_h1 .titlespan:last-child{
+            display: none;
+        }
+        .page_li_title{
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            padding-right: 10px;
+        }
+        .titlespan:first-child{
+            width: 0;
+            flex: 1;
+            font-size: 14px;
+            font-weight: bold;
+            word-wrap: break-word
+        }
+        .titlespan:last-child{
+            font-size: 12px;
+            font-weight: normal;
+            margin-left: 10px;
+        }
+        .titlespan:last-child:hover {
+            cursor: pointer;
+            color: #f6478f;
+            
+        }
+        .page_li_data{
+            padding: 10px;
+            font-size: 12px;
+            color: #606266;
+            background: #E6E8EB;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .menu{
+            display: inline-block;
+            width: 150px;
+            height: 100%;
+            border-left: 0.5px solid #DCDFE6;
+            overflow-y: auto;
+        }
+        .menu_li_h1{
+            position: relative;
+            font-size: 16px !important;
+            padding-left: 15px !important;
+        }
+        .menu_li_h1::before {
+            content: "•"; /* 使用Unicode字符“•”表示圆点 */
+            position: absolute;
+            left: 5px;
+            color: black; /* 圆点颜色 */
+        }
+        .menu_li_title{
+            display: block;
+            padding: 5px 10px;
+            font-size: 13px;
+        }
+        .menu_li_title:hover {
+            cursor: pointer;
+            color: #f6478f;
+        }
+        .menu_li_title:active, .menu_li_title:focus {
+            outline: none;
+            border: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div class="title">
+            🌈 备忘录
+        </div>
+        <div class="content">
+            <div class="page" ref="pageRef">
+                <div class="page_li" v-for="(item,index) in lists" :key='index'>
+                    <div :id="'chapter' + index" :class="['page_li_title', item.h1 ? 'page_li_h1' : '']">
+                        <span class="titlespan">{{item.title}}</span>
+                        <span class="titlespan" @click='doCopy(item.data)'>
+                           复制
+                        </span>
+                    </div>
+                    <div v-if="!item.h1" class="page_li_data">{{item.data}}</div>
+                </div>
+            </div>
+            <div class="menu">
+                <a :class="['menu_li_title', item.h1 ? 'menu_li_h1' : '']" :href="'#chapter'+ index" v-for="(item,index) in lists" :key='index'>
+                    {{item.title}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <script resource="local" src="../../lib/vue-2.5.17/vue.js"></script>
+    <script resource="local" src="../../lib/element/index.js"></script>
+    <script>
+
+        new Vue({
+            el: '#app',
+            components: {
+            },
+            data: {
+                lists:[]
+            },
+            mounted() {
+                const testMode = false; // 为true时可以在浏览器打开不报错
+                // vscode webview 网页和普通网页的唯一区别：多了一个acquireVsCodeApi方法
+                const vscode = testMode ? {} : acquireVsCodeApi();
+                const _this = this
+                window.addEventListener('message', function (event) {
+                    //在扩展开发宿主 Ctrl+Shift+P 搜索（打开Webview开发工具）Open Webview Developer Tools 打开控制台看打印信息
+                    const message = event.data;
+                    console.log('Webview接收到的消息：', message);
+                    switch (message.cmd) {
+                        case 'getInfo':
+                            if (message.data) {
+                                _this.lists = message.data
+                            }
+                            break;
+                        default: break;
+                    }
+                });
+            },
+            methods: {
+                //复制文本
+                doCopy(data) {
+                    let oInput = document.createElement('input');
+                    oInput.value = data;
+                    document.body.appendChild(oInput);
+                    oInput.select(); // 选择对象
+                    document.execCommand("Copy"); // 执行浏览器复制命令
+                    oInput.className = 'oInput';
+                    oInput.style.display = 'none';
+                    this.$message.success("复制成功");
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

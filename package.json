@@ -1,0 +1,71 @@
+{
+	"name": "wtool",
+	"displayName": "memo",
+	"description": "备忘录",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.56.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"author": {
+		"name": "龙卷风摧毁停车场"
+	},
+	"publisher": "龙卷风摧毁停车场",
+	"icon": "images/logo.png",
+	"main": "./src/extension.js",
+	"activationEvents": [
+		"onCommand:WTool.memo"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "WTool.memo",
+				"title": "🌈 备忘录"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "WTool.memo",
+					"group": "navigation"
+				}
+			],
+			"explorer/context": [
+				{
+					"command": "WTool.memo",
+					"group": "navigation"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"pretest": "npm run lint",
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.56.0",
+		"eslint": "^7.19.0",
+		"glob": "^7.1.6",
+		"mocha": "^8.2.1",
+		"typescript": "^4.1.3",
+		"vscode-test": "^1.5.0"
+	},
+	"dependencies": {
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.56.0",
+		"eslint": "^7.19.0",
+		"glob": "^7.1.6",
+		"mocha": "^8.2.1",
+		"typescript": "^4.1.3",
+		"vsce": "^2.15.0",
+		"vscode-test": "^1.5.0"
+	}
+}
