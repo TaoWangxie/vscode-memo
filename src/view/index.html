@@ -43,7 +43,6 @@
             display: flex;
             width: 100%;
             height: calc(100% - 40px);
-            background-color: #fff;
             box-sizing: border-box;
         }
         .page{
@@ -87,8 +86,8 @@
         .page_li_data{
             padding: 10px;
             font-size: 12px;
-            color: #606266;
-            background: #E6E8EB;
+            color: #fff;
+            background: #303133;
             border-radius: 4px;
             margin-bottom: 10px;
         }
@@ -141,7 +140,12 @@
                            复制
                         </span>
                     </div>
-                    <div v-if="!item.h1" class="page_li_data">{{item.data}}</div>
+                    <div v-if="!item.h1" class="page_li_data">
+                        <div v-if="item.data && Array.isArray(item.data)">
+                            <div style="margin-bottom: 5px;" v-for="(it,i) in item.data" :key='i'>{{it}}</div>
+                        </div>
+                        <div v-else>{{item.data}}</div>
+                    </div>
                 </div>
             </div>
             <div class="menu">
