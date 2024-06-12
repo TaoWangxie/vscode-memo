@@ -37,7 +37,7 @@
             letter-spacing: 1.2px;
             /* border-bottom: 1px solid #DCDFE6; */
             color: #fff;
-            background: #3CB371;
+            background: #DAA520;
         }
         .content {
             display: flex;
@@ -56,6 +56,7 @@
         }
         .page_li_h1 .titlespan:first-child{
             font-size: 20px;
+            color: #DAA520;
         }
         .page_li_h1 .titlespan:last-child{
             display: none;
@@ -75,7 +76,7 @@
         }
         .titlespan:last-child{
             font-size: 12px;
-            font-weight: normal;
+            font-weight: 500;
             margin-left: 10px;
         }
         .titlespan:last-child:hover {
@@ -91,9 +92,13 @@
             border-radius: 4px;
             margin-bottom: 10px;
         }
+        .page_li_line:hover {
+            cursor: pointer;
+            color: #f6478f;
+        }
         .menu{
             display: inline-block;
-            width: 150px;
+            width: 180px;
             height: 100%;
             border-left: 0.5px solid #DCDFE6;
             overflow-y: auto;
@@ -102,6 +107,8 @@
             position: relative;
             font-size: 16px !important;
             padding-left: 15px !important;
+            color: #CD5C5C;
+            background-color: #FAF0E6;
         }
         .menu_li_h1::before {
             content: "•"; /* 使用Unicode字符“•”表示圆点 */
@@ -129,22 +136,22 @@
 <body>
     <div id="app" class="container">
         <div class="title">
-            🌈 备忘录
+            📄 备忘录
         </div>
         <div class="content">
             <div class="page" ref="pageRef">
                 <div class="page_li" v-for="(item,index) in lists" :key='index'>
                     <div :id="'chapter' + index" :class="['page_li_title', item.h1 ? 'page_li_h1' : '']">
-                        <span class="titlespan">{{item.title}}</span>
+                        <span class="titlespan">{{item.h1 ? '🔸 ' : ''}}{{item.title}}</span>
                         <span class="titlespan" @click='doCopy(item.data)'>
                            复制
                         </span>
                     </div>
                     <div v-if="!item.h1" class="page_li_data">
                         <div v-if="item.data && Array.isArray(item.data)">
-                            <div style="margin-bottom: 5px;" v-for="(it,i) in item.data" :key='i'>{{it}}</div>
+                            <div class="page_li_line" style="margin-bottom: 5px;" v-for="(it,i) in item.data" :key='i' @click='doCopy(it)'>{{it}}</div>
                         </div>
-                        <div v-else>{{item.data}}</div>
+                        <div v-else class="page_li_line">{{item.data}}</div>
                     </div>
                 </div>
             </div>

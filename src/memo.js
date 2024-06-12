@@ -46,7 +46,7 @@ module.exports = function (context) {
         //读取codeFile文件信息
         const panel = vscode.window.createWebviewPanel( //创建WebView
             'memo', // viewType
-            "🐸 翻译", // 视图标题
+            "📜 备忘录", // 视图标题
             vscode.ViewColumn.Two, // 显示在编辑器的哪个部位
             {
                 enableScripts: true, // 启用JS，默认禁用

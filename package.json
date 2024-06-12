@@ -22,7 +22,7 @@
 		"commands": [
 			{
 				"command": "WTool.memo",
-				"title": "🌈 备忘录"
+				"title": "📜 备忘录"
 			}
 		],
 		"menus": {
